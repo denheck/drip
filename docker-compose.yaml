@@ -8,3 +8,18 @@ services:
       - .:/app
     working_dir: /app/drip
     command: ["poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+    links:
+      - db  
+  db:
+    environment:
+      - POSTGRESS_DB=postgres
+      - POSTGRES_HOST=0.0.0.0
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+    image: postgres:13
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
