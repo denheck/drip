@@ -4,3 +4,5 @@ RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/1.1.9/get-p
 ENV PATH="/root/.poetry/bin:${PATH}"
 
 WORKDIR /app
+
+CMD ["gunicorn", "-w", "4", "drip:drip"]
