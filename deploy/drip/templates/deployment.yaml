@@ -37,20 +37,20 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-              httpHeaders:
-                - name: Host
-                  value: {{ .Values.settingsSecrets.allowedHost }}
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-              httpHeaders:
-                - name: Host
-                  value: {{ .Values.settingsSecrets.allowedHost }}
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          #     httpHeaders:
+          #       - name: Host
+          #         value: {{ .Values.settingsSecrets.allowedHost }}
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          #     httpHeaders:
+          #       - name: Host
+          #         value: {{ .Values.settingsSecrets.allowedHost }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
