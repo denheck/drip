@@ -8,4 +8,6 @@ ENV PATH="/root/.poetry/bin:${PATH}"
 COPY poetry.lock pyproject.toml /app/
 RUN poetry install
 
-CMD ["poetry", "run", "gunicorn", "-w", "4", "drip:drip"]
+COPY drip /app/
+
+CMD ["poetry", "run", "gunicorn", "-w", "4", "drip.wsgi", "-b", "0.0.0.0:80"]
