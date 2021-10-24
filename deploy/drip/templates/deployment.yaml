@@ -59,14 +59,14 @@ spec:
           #     port: 80
           #     httpHeaders:
           #       - name: Host
-          #         value: {{ .Values.configEnv.APP_HOST }}
+          #         value: {{ .Values.settingsSecrets.allowedHost }}
           # readinessProbe:
           #   httpGet:
           #     path: /reports/healthcheck
           #     port: 80
           #     httpHeaders:
           #       - name: Host
-          #         value: {{ .Values.configEnv.APP_HOST }}
+          #         value: {{ .Values.settingsSecrets.allowedHost }}
         - name: {{ .Chart.Name }}-web-service
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
