@@ -10,4 +10,6 @@ RUN poetry install
 
 COPY drip /app/
 
+RUN poetry run python manage.py collectstatic --no-input --clear -i *.map
+
 CMD ["poetry", "run", "gunicorn", "-w", "4", "drip.wsgi", "-b", "0.0.0.0:80"]

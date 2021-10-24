@@ -1,13 +1,6 @@
 version: "3.9"
 services:
   web:
-    environment: 
-      - "SECRET_KEY=django-insecure-+0cze#)i6vw3=6usau-+(@@n(xa@6_2x_62n0fi4$s(%f-9!#1"
-      - DEBUG=1
-      - DB_NAME=postgres
-      - DB_USER=postgres
-      - DB_PASSWORD=admin
-      - DB_HOST=db
     build: .
     ports:
       - "8000:8000"

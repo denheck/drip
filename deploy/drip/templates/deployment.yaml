@@ -24,8 +24,50 @@ spec:
       {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+        - name: assets
+          emptyDir: {} 
+        - name: nginx-config
+          configMap:
+            name: {{ include "drip.fullname" . }}-nginx
+      initContainers:
+        - name: asset-mover
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: [bash, -c]
+          args: ["cp -r /home/reporting/staticassets/* /assets"]
+          volumeMounts:
+            - name: assets
+              mountPath: /assets
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Chart.Name }}-asset-service
+          image: nginx:1.16.0
+          command: ["/usr/sbin/nginx", "-g", "daemon off;"]
+          volumeMounts:
+            - name: assets
+              mountPath: /var/www/static
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: nginx.conf
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     path: /reports/healthcheck
+          #     port: 80
+          #     httpHeaders:
+          #       - name: Host
+          #         value: {{ .Values.configEnv.APP_HOST }}
+          # readinessProbe:
+          #   httpGet:
+          #     path: /reports/healthcheck
+          #     port: 80
+          #     httpHeaders:
+          #       - name: Host
+          #         value: {{ .Values.configEnv.APP_HOST }}
+        - name: {{ .Chart.Name }}-web-service
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
