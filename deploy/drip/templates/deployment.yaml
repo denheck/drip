@@ -35,7 +35,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: [bash, -c]
-          args: ["cp -r /home/reporting/staticassets/* /assets"]
+          args: ["cp -r /var/www/static/* /assets"]
           volumeMounts:
             - name: assets
               mountPath: /assets
