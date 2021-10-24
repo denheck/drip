@@ -4,9 +4,6 @@
 
 replicaCount: 1
 
-env:
-  debug: "0"
-
 nameOverride: ""
 fullnameOverride: ""
 
